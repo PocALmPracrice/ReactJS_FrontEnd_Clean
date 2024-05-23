@@ -1,6 +1,6 @@
 
 name: Build React App (front end)
- 
+  
 on:
   push:
     branches:
