@@ -159,4 +159,19 @@ jobs:
       #     category: my-analysis-tool
         
       # - name: Print Snyk report
-      #   run: cat snyk.sarif      
+      #   run: cat snyk.sarif    
+      
+      - name: Run Trivy in GitHub SBOM mode and submit results to Dependency Graph
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          format: 'github'
+          output: 'dependency-results.sbom.json'
+          image-ref: '.'
+          github-pat: ${{ secrets.GH_TOKEN }}
+ 
+      - name: Create coverage artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: trivy result
+          path: dependency-results.sbom.json
